@@ -5,6 +5,7 @@ import { Dashboard } from "./pages/dashboard"
 import { CarDetails } from "./pages/car"
 import { Login } from "./pages/login"
 import { Register } from "./pages/register"
+import { DashboardNew } from "./pages/dashboard/new"
 
 
 
@@ -19,6 +20,10 @@ const router = createBrowserRouter([
             {
                 path: "/dashboard",
                 element: <Dashboard />
+            },
+             {
+                path: "/dashboard/new",
+                element: <DashboardNew />
             },
             {
                 path: "/cardetails",
