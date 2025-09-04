@@ -1,11 +1,13 @@
 import { Container } from "../../components/container/Container";
 import logoImg from "../../assets/logo.svg"
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 
 import { Input } from "../../components/input/Input";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { supabase } from "../../services/supabaseClient";
+import { useEffect } from "react";
 
 const schema = z.object({
     email: z.email("*Insira um email valido").nonempty("*O campo email é obrigatório"),
@@ -15,13 +17,37 @@ const schema = z.object({
 type FormData = z.infer<typeof schema>
 
 export function Login() {
-    const {register, handleSubmit, formState: {errors}} = useForm<FormData>({
+    const navigate = useNavigate()
+
+    const { register, handleSubmit, formState: { errors } } = useForm<FormData>({
         resolver: zodResolver(schema),
         mode: "onChange"
     })
 
-    function onSubmit(data: FormData){
-        console.log(data)
+    useEffect(()=> {
+        async function signOut() {
+            await supabase.auth.signOut()
+        }
+        signOut()
+    },[])
+
+    async function onSubmit(data: FormData) {
+        const { email, password } = data;
+
+        try {
+            const { data: session, error } = await supabase.auth.signInWithPassword({ email, password });
+
+            if (error) {
+                console.error("Erro ao logar:", error.message);
+            } else {
+                console.log("Login realizado:", session);
+                navigate("/")
+
+            }
+        } catch (err) {
+            console.error("Erro inesperado:", err);
+        }
+
     }
     return (
         <Container>
@@ -42,7 +68,7 @@ export function Login() {
                         error={errors.email?.message}
                         register={register}
                     />
-                     <Input
+                    <Input
                         name="password"
                         type="password"
                         placeholder="Digite a senha..."
@@ -52,7 +78,7 @@ export function Login() {
 
                     <button type="submit" className="w-full h-10 p-2 bg-black rounded-lg text-white font-medium">Acessar</button>
                 </form>
-                
+
                 <span className="my-8">Ainda não possui uma conta?<a href="/register"> Cadastre-se</a></span>
 
             </div>

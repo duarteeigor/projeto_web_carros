@@ -1,11 +1,14 @@
 import { Container } from "../../components/container/Container";
 import logoImg from "../../assets/logo.svg"
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 
 import { Input } from "../../components/input/Input";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+
+import { supabase } from "../../services/supabaseClient";
+import { useEffect } from "react";
 
 const schema = z.object({
     name: z.string().nonempty("Campo nome obrigatório"),
@@ -16,13 +19,42 @@ const schema = z.object({
 type FormData = z.infer<typeof schema>
 
 export function Register() {
+    const navigate = useNavigate()
+
     const {register, handleSubmit, formState: {errors}} = useForm<FormData>({
         resolver: zodResolver(schema),
         mode: "onChange"
     })
 
-    function onSubmit(data: FormData){
-        console.log(data)
+    useEffect(()=>{
+        async function signOut(){
+            const {error} = await supabase.auth.signOut()
+            
+            if(error){
+                console.log(error.message)
+            } else {
+                console.log("Usuario deslogado com sucesso")
+            }
+        }
+        signOut()
+    },[])
+
+    async function onSubmit(data: FormData){
+        const {email, password}  = data;
+
+        try {
+            const {data: session, error} = await supabase.auth.signUp({email, password})
+
+            if(error){
+                console.log(error)
+            } else {
+                console.log("Registrado com sucesso!")
+                navigate("/login")
+            }
+        } catch (error) {
+            console.log(error)
+        }
+
     }
 
     return (
