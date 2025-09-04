@@ -8,9 +8,9 @@ interface PrivateRouteProps{
 }
 
 export function PrivateRoute({children}: PrivateRouteProps){
-    const {loadingAuth, signed} = useContext(AuthContext)
+    const {loading, signed} = useContext(AuthContext)
 
-    if(loadingAuth){
+    if(loading){
         return <div>Carregando...</div>
     }
     
