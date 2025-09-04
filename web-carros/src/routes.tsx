@@ -6,6 +6,7 @@ import { CarDetails } from "./pages/car"
 import { Login } from "./pages/login"
 import { Register } from "./pages/register"
 import { DashboardNew } from "./pages/dashboard/new"
+import { PrivateRoute } from "./components/routes/Private"
 
 
 
@@ -19,11 +20,11 @@ const router = createBrowserRouter([
             },
             {
                 path: "/dashboard",
-                element: <Dashboard />
+                element: <PrivateRoute><Dashboard /></PrivateRoute>
             },
              {
                 path: "/dashboard/new",
-                element: <DashboardNew />
+                element: <PrivateRoute><DashboardNew /></PrivateRoute>
             },
             {
                 path: "/cardetails",
