@@ -40,10 +40,20 @@ export function Register() {
     },[])
 
     async function onSubmit(data: FormData){
-        const {email, password}  = data;
+        const {email, password, name} = data
 
         try {
-            const {data: session, error} = await supabase.auth.signUp({email, password})
+            const {data: sessionData,  error} = await supabase.auth.signUp(
+                {
+                    email: email, 
+                    password: password,
+                    options: {
+                        data:{
+                            name: name
+                        }
+                    }
+                }
+            )
 
             if(error){
                 console.log(error)
@@ -95,7 +105,7 @@ export function Register() {
                     <button type="submit" className="w-full h-10 p-2 bg-black rounded-lg text-white font-medium">Acessar</button>
                 </form>
                 
-                <span className="my-8">Já possui uma conta?<a href="/register"> Clique aqui!</a></span>
+                <span className="my-8">Já possui uma conta?<Link to="/login"> Clique aqui!</Link></span>
 
             </div>
         </Container>
