@@ -13,7 +13,7 @@ export function Input({type, placeholder, name, error, register, rules} : InputP
     return(
         <div>
             <input
-                className="px-2 w-full outline-none h-11 rounded-md border-2 border-gray-200 mb-2"
+                className="px-2 w-full outline-none h-10 rounded-md border-2 border-gray-200 mb-2"
                 placeholder={placeholder}
                 type={type}
                 {...register(name, rules)}
