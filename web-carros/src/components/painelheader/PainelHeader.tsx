@@ -9,7 +9,7 @@ export function PainelHeader() {
 
     return (
 
-        <div className="bg-red-500 h-14 text-white font-medium text-lg flex justify-center items-center gap-6 px-4 rounded-lg">
+        <div className="bg-red-500 h-10 text-white font-medium text-lg flex justify-center items-center gap-6 px-4 rounded-lg">
 
             <Link className="hover:opacity-90" to="/dashboard">Dashboard</Link>
 
