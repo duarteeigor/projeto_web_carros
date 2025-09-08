@@ -34,7 +34,6 @@ function AuthProvider({ children }: AuthProviderProps) {
                     email: session.user.user_metadata.email,
                     name: session.user.user_metadata.name
                 })
-
                 setLoading(false)
             } else {
                 console.log("Não existe usuario logado")
