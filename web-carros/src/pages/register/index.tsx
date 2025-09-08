@@ -8,7 +8,8 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { supabase } from "../../services/supabaseClient";
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
+import { AuthContext } from "../../contexts/AuthContext";
 
 const schema = z.object({
     name: z.string().nonempty("Campo nome obrigatório"),
@@ -20,6 +21,7 @@ type FormData = z.infer<typeof schema>
 
 export function Register() {
     const navigate = useNavigate()
+    const {handleSaveInfoUser} = useContext(AuthContext)
 
     const {register, handleSubmit, formState: {errors}} = useForm<FormData>({
         resolver: zodResolver(schema),
@@ -57,10 +59,21 @@ export function Register() {
 
             if(error){
                 console.log(error)
-            } else {
-                console.log("Registrado com sucesso!")
-                navigate("/login")
             }
+
+            if(sessionData.user){
+                handleSaveInfoUser({
+                    id: sessionData.user.id,
+                    email: sessionData.user.email!,
+                    name: sessionData.user.user_metadata.name
+                })
+            }
+
+                console.log("Registrado com sucesso!")
+                navigate("/dashboard", {replace: true})
+            
+
+
         } catch (error) {
             console.log(error)
         }
