@@ -27,7 +27,7 @@ const router = createBrowserRouter([
                 element: <PrivateRoute><DashboardNew /></PrivateRoute>
             },
             {
-                path: "/cardetails",
+                path: "/car/:id",
                 element: <CarDetails />
             }
         ]
