@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { supabase } from "../../services/supabaseClient";
 import { Link } from "react-router";
 
-interface CarProps {
+export interface CarProps {
     id: string;
     uid: string;
     name: string;
@@ -14,7 +14,7 @@ interface CarProps {
     images?: CarImageProps[];
 }
 
-interface CarImageProps {
+export interface CarImageProps {
     name: string;
     uid: string;
     publicUrl: string;
@@ -36,13 +36,13 @@ export function Home() {
                 return
             }
 
-            const carsWithImages = response.data.map(car => ({
-                ...car,
-                images: car.images || []
-            }));
+            // const carsWithImages = response.data.map(car => ({
+            //     ...car,
+            //     images: car.images || []
+            // }));
 
 
-            setCars(carsWithImages)
+            setCars(response.data)
 
         }
         getData()
