@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState, type ChangeEvent } from "react"
+import { useContext, useState, type ChangeEvent } from "react"
 import { FiTrash, FiUpload } from "react-icons/fi";
 import { Container } from "../../../components/container/Container";
 import { PainelHeader } from "../../../components/painelheader/PainelHeader";
@@ -31,7 +31,8 @@ interface ImageItemProps {
   userid: string,
   name: string,
   previewUrl: string,
-  url: string
+  url: string,
+  publicUrl: string
 }
 
 
@@ -54,7 +55,8 @@ export function DashboardNew() {
       return {
         userid: car.userid,
         name: car.name,
-        url: car.url
+        url: car.url,
+        publicUrl: car.publicUrl
       }
     })
 
@@ -123,12 +125,16 @@ export function DashboardNew() {
     if (error) {
       console.error("Erro no upload:", error.message);
     } else {
+      const { data: {publicUrl} } = supabase.storage.from("car_images").getPublicUrl(path);
+
       const imageItem = {
         name: uidImage,
         userid: currentId,
         previewUrl: URL.createObjectURL(image),
-        url: path
+        url: path,
+        publicUrl
       };
+      console.log(imageItem.previewUrl)
 
       setImage(prev => [...prev, imageItem]);
       console.log("Upload feito com sucesso!", data);
@@ -218,7 +224,7 @@ export function DashboardNew() {
                 <span>Ano</span>
                 <Input
                   placeholder="Ex: 2022"
-                  type="number"
+                  type="text"
                   name="year"
                   register={register}
                   error={errors.year?.message}
@@ -229,7 +235,7 @@ export function DashboardNew() {
                 <label>Km rodados</label>
                 <Input
                   placeholder="Ex: 80.000"
-                  type="number"
+                  type="text"
                   name="km"
                   register={register}
                   error={errors.km?.message}
@@ -240,7 +246,7 @@ export function DashboardNew() {
             <label>Valor em R$</label>
             <Input
               placeholder="Ex: 105.000"
-              type="number"
+              type="text"
               name="value"
               register={register}
               error={errors.value?.message}
@@ -251,8 +257,8 @@ export function DashboardNew() {
                 <label>Telefone / Whatsapp</label>
                 <Input
                   placeholder="Ex: (31)9999-9999"
-                  type="number"
-                  name="phone"
+                  type="text"
+                  name="whatsapp"
                   register={register}
                   error={errors.whatsapp?.message}
                 />
