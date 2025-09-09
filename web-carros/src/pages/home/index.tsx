@@ -23,6 +23,7 @@ interface CarImageProps {
 
 export function Home() {
     const [cars, setCars] = useState<CarProps[]>([])
+    const [loadingImage, setLoadingImage] = useState<string[]>([])
 
     useEffect(() => {
         async function getData() {
@@ -46,6 +47,12 @@ export function Home() {
         }
         getData()
     }, [])
+
+    function handleLoading(id: string){
+            setLoadingImage(prev => [...prev, id])
+        }
+
+
     return (
         <Container>
             <div className="flex items-center justify-around w-full max-w-3xl h-20 mx-auto mb-6 rounded-2xl bg-white">
@@ -66,10 +73,17 @@ export function Home() {
                     <Link key={item.id} to={`/car/${item.id}`} >
                         <section  className="w-full bg-white rounded-lg">
 
+                            <div
+                                style={{display: loadingImage.includes(item.id) ? "none" : "block"}}
+                                className="max-w-full h-72 bg-slate-200 rounded-lg">
+
+                            </div>
                             <img
                                 src={item.images?.[0]?.publicUrl || "placeholder"}
                                 alt="bmw 320i"
                                 className="w-full rounded-lg  mb-2 h-72 max-h-72 object-cover hover:scale-105"
+                                onLoad={()=> handleLoading(item.id) }
+                                style={{display: loadingImage.includes(item.id)? "block" : "none"}}
                             />
 
 
