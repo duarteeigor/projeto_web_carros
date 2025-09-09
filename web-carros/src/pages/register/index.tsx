@@ -21,57 +21,60 @@ type FormData = z.infer<typeof schema>
 
 export function Register() {
     const navigate = useNavigate()
-    const {handleSaveInfoUser} = useContext(AuthContext)
+    const { handleSaveInfoUser } = useContext(AuthContext)
 
-    const {register, handleSubmit, formState: {errors}} = useForm<FormData>({
+    const { register, handleSubmit, formState: { errors } } = useForm<FormData>({
         resolver: zodResolver(schema),
         mode: "onChange"
     })
 
-    useEffect(()=>{
-        async function signOut(){
-            const {error} = await supabase.auth.signOut()
-            
-            if(error){
+    useEffect(() => {
+        async function signOut() {
+            const { error } = await supabase.auth.signOut()
+
+            if (error) {
                 console.log(error.message)
             } else {
                 console.log("Usuario deslogado com sucesso")
             }
         }
         signOut()
-    },[])
+    }, [])
 
-    async function onSubmit(data: FormData){
-        const {email, password, name} = data
+    async function onSubmit(data: FormData) {
+        const { email, password, name } = data
 
         try {
-            const {data: sessionData,  error} = await supabase.auth.signUp(
+            const { data: sessionData, error } = await supabase.auth.signUp(
                 {
-                    email: email, 
+                    email: email,
                     password: password,
                     options: {
-                        data:{
-                            name: name
+                        data: {
+                            fullName: name
                         }
                     }
                 }
             )
 
-            if(error){
+            if (error) {
                 console.log(error)
             }
 
-            if(sessionData.user){
+            if (sessionData.user) {
                 handleSaveInfoUser({
                     id: sessionData.user.id,
                     email: sessionData.user.email!,
-                    name: sessionData.user.user_metadata.name
+                    name: sessionData.user.user_metadata.fullName
                 })
+
+                
             }
 
-                console.log("Registrado com sucesso!")
-                navigate("/dashboard", {replace: true})
-            
+            console.log("Registrado com sucesso!")
+            console.log(sessionData.user?.user_metadata)
+            navigate("/dashboard", { replace: true })
+
 
 
         } catch (error) {
@@ -99,7 +102,7 @@ export function Register() {
                         error={errors.name?.message}
                         register={register}
                     />
-                     <Input
+                    <Input
                         name="email"
                         type="email"
                         placeholder="Digite o email"
@@ -117,7 +120,7 @@ export function Register() {
 
                     <button type="submit" className="w-full h-10 p-2 bg-black rounded-lg text-white font-medium">Acessar</button>
                 </form>
-                
+
                 <span className="my-8">Já possui uma conta?<Link to="/login"> Clique aqui!</Link></span>
 
             </div>
