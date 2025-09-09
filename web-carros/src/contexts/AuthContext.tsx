@@ -32,7 +32,7 @@ function AuthProvider({ children }: AuthProviderProps) {
                 setUser({
                     id: session.user.id,
                     email: session.user.user_metadata.email,
-                    name: session.user.user_metadata.name
+                    name: session.user.user_metadata.fullName
                 })
                 setLoading(false)
             } else {
