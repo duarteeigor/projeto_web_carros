@@ -5,6 +5,7 @@ import { AuthContext } from "../../contexts/AuthContext";
 import { type CarProps } from "../home";
 import { supabase } from "../../services/supabaseClient";
 import { Link } from "react-router";
+import { FiTrash2 } from "react-icons/fi";
 
 
 
@@ -48,28 +49,86 @@ export function Dashboard() {
         setLoadingImage(prev => [...prev, id])
     }
 
+    async function handleDelete(car: CarProps) {
+        //removendo o carro cadastrado no banco de dados
+        const response = await supabase
+            .from('cars')
+            .delete() //.select('*')
+            .eq('id', car.id)
+
+        if (response.error) {
+            console.log(response.error.message)
+            return
+        }
+
+        //Caso queira dar um console no data que foi excluido, é necessario passar um select na response apos o metodo delete, caso contrario retornara null
+        // console.log("excluiu do db", response.data) === null
+
+        //excluindo imagens do carro deletado no storage
+
+        car.images?.map(async (img) => {
+            //pegando a url (car.owner_id/img.name) que vem do newDashboard
+            const path = img.url
+
+            try {
+                const { data, error } = await supabase.storage
+                    .from('car_images')
+                    .remove([path])
+
+                if (error) {
+                    console.log(error.message)
+                    return
+                }
+
+                console.log("Excluido do storage com sucesso!", data)
+
+
+            } catch (erro) {
+                console.log(erro)
+            }
+        })
+
+        //Atualiazndo o state para remover o carro que foi deletado
+        setCars(cars.filter(item => item.id !== car.id))
+    }
+
     return (
         <div>
             <Container>
                 <PainelHeader />
 
                 <main className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 my-14">
-                {cars.map((item: CarProps) => (
-                    <Link key={item.id} to={`/car/${item.id}`} >
-                        <section  className="w-full bg-white rounded-lg">
+                    {cars.map((item: CarProps) => (
 
-                            <div
-                                style={{display: loadingImage.includes(item.id) ? "none" : "block"}}
-                                className="max-w-full h-72 bg-slate-200 rounded-lg">
+                        <section key={item.id} className="w-full bg-white rounded-lg">
+
+                            <div className="relative w-full h-72 rounded-lg overflow-hidden group">
+                                <div
+                                    style={{ display: loadingImage.includes(item.id) ? "none" : "block" }}
+                                    className="max-w-full h-72 bg-slate-200 rounded-lg">
+
+                                </div>
+
+                                <Link to={`/car/${item.id}`}>
+                                    <img
+                                        src={item.images?.[0]?.publicUrl || "placeholder"}
+                                        alt="bmw 320i"
+                                        className="w-full h-full object-cover transition-transform duration-300 transform group-hover:scale-105"
+                                        onLoad={() => handleLoading(item.id)}
+                                        style={{ display: loadingImage.includes(item.id) ? "block" : "none" }}
+                                    />
+                                </Link>
+
+
+                                <FiTrash2
+                                    size={28}
+                                    color="#FFF"
+                                    className="absolute top-2 right-2 z-20 opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer"
+                                    onClick={(e) => { e.stopPropagation(), handleDelete(item) }}
+
+                                />
 
                             </div>
-                            <img
-                                src={item.images?.[0]?.publicUrl || "placeholder"}
-                                alt="bmw 320i"
-                                className="w-full rounded-lg  mb-2 h-72 max-h-72 object-cover hover:scale-105"
-                                onLoad={()=> handleLoading(item.id) }
-                                style={{display: loadingImage.includes(item.id)? "block" : "none"}}
-                            />
 
 
                             <p className="font-bold mt-1 mb-2 px-2">{item.name.toUpperCase()}</p>
@@ -89,9 +148,9 @@ export function Dashboard() {
                                 <span className="text-zinc-700">{item.city}</span>
                             </div>
                         </section>
-                    </Link>
-                ))}
-            </main>
+
+                    ))}
+                </main>
 
 
             </Container>
