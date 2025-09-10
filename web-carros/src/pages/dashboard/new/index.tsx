@@ -27,7 +27,7 @@ const schema = z.object({
 
 type FormData = z.infer<typeof schema>
 
-interface ImageItemProps {
+export interface ImageItemProps {
   userid: string,
   name: string,
   previewUrl: string,
@@ -134,7 +134,6 @@ export function DashboardNew() {
         url: path,
         publicUrl
       };
-      console.log(imageItem.previewUrl)
 
       setImage(prev => [...prev, imageItem]);
       console.log("Upload feito com sucesso!", data);
@@ -149,7 +148,6 @@ export function DashboardNew() {
 
     // Usa exatamente o mesmo path usado no upload
     const path = file.url
-    console.log("Deletando path:", path);
 
     const { data, error } = await supabase.storage.from("car_images").remove([path]);
 
