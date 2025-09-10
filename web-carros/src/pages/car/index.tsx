@@ -5,6 +5,13 @@ import { type CarProps } from "../home";
 import { supabase } from "../../services/supabaseClient";
 import { FaWhatsapp } from "react-icons/fa";
 
+
+import { Swiper, SwiperSlide } from 'swiper/react';
+
+import 'swiper/swiper-bundle.css'
+import { Navigation, Pagination } from "swiper/modules";
+import './index.css'
+
 export function CarDetails() {
     const {id} = useParams()
     const [car, setCar] = useState<CarProps>()
@@ -41,7 +48,32 @@ export function CarDetails() {
 
     return (
             <Container>
-                <h1>slider</h1>
+                
+                <Swiper
+                    className="mb-8"
+                    slidesPerView={1}
+                    pagination={{clickable: true}}
+                    navigation
+                    modules={[Pagination, Navigation]}
+                    breakpoints={{
+                        768: {
+                            slidesPerView: 2,
+                            
+                        }
+                    }}
+                    >
+                        {car?.images?.map(img => (
+                            <SwiperSlide key={img.name}>
+                                <img src={img.publicUrl} alt="img" className="w-full  max-h-80 md:min-h-70 md:max-h-90 object-cover" />
+                            </SwiperSlide>
+                        ))}
+
+                </Swiper>
+
+                
+
+                
+
                 <div className="flex h-1/2  flex-col gap-4">
                     <div className="flex items-center justify-between">
                         <strong className="text-2xl">{car?.marca.toUpperCase()} {car?.name.toUpperCase()}</strong>
@@ -74,7 +106,7 @@ export function CarDetails() {
 
                     <div className="flex flex-col gap-2">
                         <strong>Descrição</strong>
-                        <span>{car?.description}</span>
+                        <span className="break-words whitespace-normal">{car?.description}</span>
                     </div>
 
                     <div className="flex flex-col gap-2">
@@ -82,10 +114,15 @@ export function CarDetails() {
                         <span>{car?.whatsapp}</span>
                     </div>
 
-                    <a className="bg-green-700 flex items-center justify-center gap-2 w-full p-4 rounded-lg text-lg text-white font-medium cursor-pointer">
+                    <div className="h-20 md:hidden"></div> {/* espaço para o botão no mobile */}
+
+
+                    <div className="md:static md:px-0 fixed bottom-3 left-0 w-full px-4 ">
+                        <a className="bg-green-700 flex items-center justify-center gap-2 w-full p-4 rounded-lg text-lg text-white font-medium cursor-pointer">
                         Falar com o anunciante
                         <FaWhatsapp size={26} color="#FFF" />
                     </a>
+                    </div>
                 </div>
             </Container>
         
