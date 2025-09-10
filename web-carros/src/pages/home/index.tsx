@@ -5,7 +5,7 @@ import { Link } from "react-router";
 
 export interface CarProps {
     id: string;
-    uid: string;
+    owner_id: string;
     name: string;
     year: string;
     km: string;
@@ -16,8 +16,9 @@ export interface CarProps {
 
 export interface CarImageProps {
     name: string;
-    uid: string;
+    id: string;
     publicUrl: string;
+    url: string
 }
 
 
@@ -41,7 +42,7 @@ export function Home() {
             //     images: car.images || []
             // }));
 
-
+            console.log(response.data)
             setCars(response.data)
 
         }
