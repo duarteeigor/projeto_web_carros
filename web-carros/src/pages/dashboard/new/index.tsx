@@ -22,7 +22,9 @@ const schema = z.object({
   value: z.string().nonempty("O campo é obrigatorio").regex(/^\d+(\.\d{2})?$/, "O valor deve ser um número"),
   city: z.string().nonempty("O campo é obrigatorio"),
   whatsapp: z.string().nonempty("O campo é obrigatorio").regex(/^\(\d{2}\)\d{4,5}-\d{4}$/, "WhatsApp inválido. Formato esperado: (99)99999-9999"),
-  description: z.string().nonempty("O campo é obrigatorio")
+  description: z.string().nonempty("O campo é obrigatorio"),
+  cambio: z.string().nonempty("O campo é obrigatorio"),
+  model: z.string().nonempty("O campo é obrigatorio")
 })
 
 type FormData = z.infer<typeof schema>
@@ -77,7 +79,9 @@ export function DashboardNew() {
             created_at: new Date(),
             images: imageJson,
             owner_name: user?.name,
-            owner_id: user?.id
+            owner_id: user?.id,
+            cambio: data.cambio,
+            model: data.model
           }
         ])
         .select(); // importante para retornar os dados inseridos
@@ -216,6 +220,30 @@ export function DashboardNew() {
               register={register}
               error={errors.marca?.message}
             />
+
+            <div className="flex gap-6">
+              <div className="w-full flex flex-col">
+                <span>Modelo</span>
+                <Input
+                  placeholder="Ex: 2.0 16V Turbo Flex"
+                  type="text"
+                  name="model"
+                  register={register}
+                  error={errors.model?.message}
+                />
+              </div>
+
+              <div className="w-1/2 flex flex-col">
+                <label>Câmbio</label>
+                <Input
+                  placeholder="Ex: Manual"
+                  type="text"
+                  name="cambio"
+                  register={register}
+                  error={errors.cambio?.message}
+                />
+              </div>
+            </div>
 
             <div className="flex gap-6">
               <div className="w-full flex flex-col">
