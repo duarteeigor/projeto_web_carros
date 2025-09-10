@@ -12,6 +12,11 @@ export interface CarProps {
     value: string;
     city: string;
     images?: CarImageProps[];
+    description: string,
+    marca: string,
+    whatsapp: string,
+    model: string,
+    cambio: string
 }
 
 export interface CarImageProps {
