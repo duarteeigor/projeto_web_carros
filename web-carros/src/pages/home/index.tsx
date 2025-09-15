@@ -28,11 +28,15 @@ export interface CarImageProps {
 
 
 export function Home() {
+    const [search, setSearch] = useState('')
     const [cars, setCars] = useState<CarProps[]>([])
     const [loadingImage, setLoadingImage] = useState<string[]>([])
 
     useEffect(() => {
-        async function getData() {
+        getData()
+    }, [])
+
+    async function getData() {
             const response = await supabase
                 .from('cars')
                 .select('*')
@@ -51,13 +55,32 @@ export function Home() {
             setCars(response.data)
 
         }
-        getData()
-    }, [])
 
     function handleLoading(id: string){
             setLoadingImage(prev => [...prev, id])
         }
 
+    async function handleSearch(){
+        if(search === ""){
+            getData()
+            return
+        }
+        const {data, error} = await supabase
+            .from("cars")
+            .select("*")
+            .ilike("name", `%${search}%`)
+        
+        if(error){
+            console.log(error.message)
+            return
+        }
+
+        if(data && data.length > 0){
+            setCars(data)
+        }
+    }
+    
+    
 
     return (
         <Container>
@@ -66,9 +89,13 @@ export function Home() {
                     type="text"
                     placeholder="Digite o nome do carro..."
                     className="w-8/12 p-2 border border-gray-300 rounded-2xl outline-none"
+                    onChange={(e) => setSearch(e.target.value)}
                 />
 
-                <button className="w-3/12 bg-red-500 p-2 rounded-2xl text-white text-lg font-medium cursor-pointer hover:bg-red-900 transition-colors">Buscar</button>
+                <button
+                    onClick={()=> handleSearch()}
+                    className="w-3/12 bg-red-500 p-2 rounded-2xl text-white text-lg font-medium cursor-pointer hover:bg-red-900 transition-colors">Buscar</button>
+                    
 
             </div>
 
