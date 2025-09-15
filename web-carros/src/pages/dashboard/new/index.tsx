@@ -68,12 +68,12 @@ export function DashboardNew() {
         .from('cars')
         .insert([
           {
-            name: data.nameCar,
-            marca: data.marca,
+            name: data.nameCar.toLowerCase(),
+            marca: data.marca.toLowerCase(),
             year: data.year,
             km: data.km,
             value: data.value,
-            city: data.city,
+            city: data.city.toLowerCase(),
             whatsapp: data.whatsapp,
             description: data.description,
             created_at: new Date(),
@@ -93,6 +93,7 @@ export function DashboardNew() {
         reset()
         setImage([])
       }
+
     } catch (err) {
       console.log(err); // captura erros inesperados
     }
