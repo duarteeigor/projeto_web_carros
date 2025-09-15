@@ -5,9 +5,17 @@ import { RouterProvider } from 'react-router'
 import { router } from './routes.tsx'
 import AuthProvider from './contexts/AuthContext.tsx'
 
+import { Toaster } from "react-hot-toast"
+
 createRoot(document.getElementById('root')!).render(
-    <AuthProvider>
-        <RouterProvider router={router} />
-    </AuthProvider>
-    
+    <>
+        <Toaster
+            position='top-right'
+            reverseOrder={false} 
+        />
+        <AuthProvider>
+            <RouterProvider router={router} />
+        </AuthProvider>
+    </>
+
 )
