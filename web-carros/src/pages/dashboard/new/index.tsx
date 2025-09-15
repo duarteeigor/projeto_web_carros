@@ -12,6 +12,7 @@ import { supabase } from "../../../services/supabaseClient";
 
 
 import { v4 as uuidV4 } from 'uuid'
+import toast from "react-hot-toast";
 
 
 const schema = z.object({
@@ -87,9 +88,9 @@ export function DashboardNew() {
         .select(); // importante para retornar os dados inseridos
 
       if (error) {
-        console.log(error.message);
+        toast.error("Não foi possivel cadastrar o carro!");
       } else {
-        console.log(sa)
+        toast.success("Carro cadastrado com sucesso!")
         reset()
         setImage([])
       }
@@ -141,7 +142,7 @@ export function DashboardNew() {
       };
 
       setImage(prev => [...prev, imageItem]);
-      console.log("Upload feito com sucesso!", data);
+      toast.success("Upload feito com sucesso!")
     }
   }
 

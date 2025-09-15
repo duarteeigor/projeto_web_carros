@@ -6,6 +6,7 @@ import { type CarProps } from "../home";
 import { supabase } from "../../services/supabaseClient";
 import { Link } from "react-router";
 import { FiTrash2 } from "react-icons/fi";
+import toast from "react-hot-toast";
 
 
 
@@ -80,14 +81,13 @@ export function Dashboard() {
                     return
                 }
 
-                console.log("Excluido do storage com sucesso!", data)
-
 
             } catch (erro) {
                 console.log(erro)
             }
         })
 
+        toast.success("Carro excluído com sucesso!")
         //Atualiazndo o state para remover o carro que foi deletado
         setCars(cars.filter(item => item.id !== car.id))
     }
