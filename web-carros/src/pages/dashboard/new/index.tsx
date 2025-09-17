@@ -96,7 +96,7 @@ export function DashboardNew() {
       }
 
     } catch (err) {
-      console.log(err); // captura erros inesperados
+      console.error(err); // captura erros inesperados
     }
   }
 
@@ -117,7 +117,7 @@ export function DashboardNew() {
 
   async function handleUpload(image: File) {
     if (!user?.id) {
-      console.log("user nao encontradco")
+      console.error("user nao encontradco")
       return
     }
 
@@ -148,7 +148,7 @@ export function DashboardNew() {
 
   async function handleDelete(file: ImageItemProps) {
     if (!user?.id) {
-      console.log("user nao enctonrado")
+      console.error("user nao enctonrado")
       return
     }
 
@@ -162,7 +162,7 @@ export function DashboardNew() {
       return;
     }
 
-    console.log("Imagem excluída com sucesso!", data);
+    // console.log("Imagem excluída com sucesso!", data);
 
     // Atualiza o state
     setImage(prev => prev.filter(img => img.name !== file.name));

@@ -27,7 +27,7 @@ export function Dashboard() {
                 .eq('owner_id', user.id)
 
             if (response.error) {
-                console.log(response.error.message)
+                console.error(response.error.message)
                 return
             }
 
@@ -58,7 +58,7 @@ export function Dashboard() {
             .eq('id', car.id)
 
         if (response.error) {
-            console.log(response.error.message)
+            console.error(response.error.message)
             return
         }
 
@@ -77,13 +77,13 @@ export function Dashboard() {
                     .remove([path])
 
                 if (error) {
-                    console.log(error.message)
+                    console.error(error.message)
                     return
                 }
 
 
             } catch (erro) {
-                console.log(erro)
+                console.error(erro)
             }
         })
 

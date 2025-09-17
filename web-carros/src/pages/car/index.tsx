@@ -25,7 +25,7 @@ export function CarDetails() {
         .eq('id', id);
 
       if (error) {
-        console.log(error.message);
+        console.error(error.message);
         setNotFound(true);
         setLoading(false);
         return;

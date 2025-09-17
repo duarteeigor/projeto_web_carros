@@ -36,7 +36,7 @@ function AuthProvider({ children }: AuthProviderProps) {
                 })
                 setLoading(false)
             } else {
-                console.log("Não existe usuario logado")
+                console.error("Não existe usuario logado")
                 setUser(null)
                 setLoading(false)
 

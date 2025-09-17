@@ -35,12 +35,12 @@ export function Login() {
         const { email, password } = data;
 
         try {
-            const { data: session, error } = await supabase.auth.signInWithPassword({ email, password });
+            const { data: _session, error } = await supabase.auth.signInWithPassword({ email, password });
 
             if (error) {
                 console.error("Erro ao logar:", error.message);
             } else {
-                console.log("Login realizado:", session);
+                // console.log("Login realizado:", session);
                 navigate("/")
 
             }

@@ -42,7 +42,7 @@ export function Home() {
                 .select('*')
 
             if (!response.data) {
-                console.log("error")
+                console.error(response.error)
                 return
             }
 
@@ -51,7 +51,6 @@ export function Home() {
             //     images: car.images || []
             // }));
 
-            console.log(response.data)
             setCars(response.data)
 
         }
@@ -71,7 +70,7 @@ export function Home() {
             .ilike("name", `%${search}%`)
         
         if(error){
-            console.log(error.message)
+            console.error(error.message)
             return
         }
 

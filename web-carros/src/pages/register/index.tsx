@@ -33,9 +33,9 @@ export function Register() {
             const { error } = await supabase.auth.signOut()
 
             if (error) {
-                console.log(error.message)
+                console.error(error.message)
             } else {
-                console.log("Usuario deslogado com sucesso")
+                alert("Usuario deslogado com sucesso")
             }
         }
         signOut()
@@ -58,7 +58,7 @@ export function Register() {
             )
 
             if (error) {
-                console.log(error)
+                console.error(error)
             }
 
             if (sessionData.user) {
@@ -71,14 +71,14 @@ export function Register() {
                 
             }
 
-            console.log("Registrado com sucesso!")
-            console.log(sessionData.user?.user_metadata)
+            alert("Registrado com sucesso!")
+            // console.log(sessionData.user?.user_metadata)
             navigate("/dashboard", { replace: true })
 
 
 
         } catch (error) {
-            console.log(error)
+            console.error(error)
         }
 
     }
