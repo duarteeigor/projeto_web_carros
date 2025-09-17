@@ -34,9 +34,7 @@ export function Register() {
 
             if (error) {
                 console.error(error.message)
-            } else {
-                alert("Usuario deslogado com sucesso")
-            }
+            } 
         }
         signOut()
     }, [])
