@@ -72,7 +72,7 @@ export function Dashboard() {
             const path = img.url
 
             try {
-                const { data, error } = await supabase.storage
+                const { error } = await supabase.storage
                     .from('car_images')
                     .remove([path])
 

@@ -27,7 +27,7 @@ function AuthProvider({ children }: AuthProviderProps) {
     const [loading, setLoading] = useState(true)
 
     useEffect(() => {
-        const {data: {subscription: {unsubscribe}}} = supabase.auth.onAuthStateChange((event, session) => {
+        const {data: {subscription: {unsubscribe}}} = supabase.auth.onAuthStateChange((_event, session) => {
             if (session) {
                 setUser({
                     id: session.user.id,

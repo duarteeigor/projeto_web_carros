@@ -65,7 +65,7 @@ export function DashboardNew() {
 
 
     try {
-      const { data: sa, error } = await supabase
+      const { data: _sa, error } = await supabase
         .from('cars')
         .insert([
           {
@@ -128,7 +128,7 @@ export function DashboardNew() {
 
     const { data, error } = await supabase.storage.from("car_images").upload(path, image);
 
-    if (error) {
+    if (error || !data) {
       console.error("Erro no upload:", error.message);
     } else {
       const { data: {publicUrl} } = supabase.storage.from("car_images").getPublicUrl(path);
