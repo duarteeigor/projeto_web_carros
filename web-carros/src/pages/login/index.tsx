@@ -7,7 +7,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { supabase } from "../../services/supabaseClient";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const schema = z.object({
     email: z.email("*Insira um email valido").nonempty("*O campo email é obrigatório"),
@@ -17,6 +17,7 @@ const schema = z.object({
 type FormData = z.infer<typeof schema>
 
 export function Login() {
+    const [error, setError] = useState("")
     const navigate = useNavigate()
 
     const { register, handleSubmit, formState: { errors } } = useForm<FormData>({
@@ -38,9 +39,11 @@ export function Login() {
             const { data: _session, error } = await supabase.auth.signInWithPassword({ email, password });
 
             if (error) {
+                setError("Usuario ou senha incorreta!")
                 console.error("Erro ao logar:", error.message);
             } else {
                 // console.log("Login realizado:", session);
+                setError("")
                 navigate("/")
 
             }
@@ -75,6 +78,8 @@ export function Login() {
                         error={errors.password?.message}
                         register={register}
                     />
+
+                    {error && (<span className="text-red-500">{error}</span>)}
 
                     <button type="submit" className="w-full h-10 p-2 bg-black rounded-lg text-white font-medium">Acessar</button>
                 </form>
