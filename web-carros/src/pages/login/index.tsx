@@ -42,7 +42,7 @@ export function Login() {
                 setError("Usuario ou senha incorreta!")
                 console.error("Erro ao logar:", error.message);
             } else {
-                // console.log("Login realizado:", session);
+                
                 setError("")
                 navigate("/")
 

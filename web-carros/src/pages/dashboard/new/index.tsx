@@ -162,8 +162,6 @@ export function DashboardNew() {
       return;
     }
 
-    // console.log("Imagem excluída com sucesso!", data);
-
     // Atualiza o state
     setImage(prev => prev.filter(img => img.name !== file.name));
   }

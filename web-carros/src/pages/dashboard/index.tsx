@@ -66,7 +66,6 @@ export function Dashboard() {
         }
 
         //Caso queira dar um console no data que foi excluido, é necessario passar um select na response apos o metodo delete, caso contrario retornara null
-        // console.log("excluiu do db", response.data) === null
 
         //excluindo imagens do carro deletado no storage
 
