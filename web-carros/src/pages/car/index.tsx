@@ -135,6 +135,7 @@ export function CarDetails() {
           <a
             className="bg-green-700 flex items-center justify-center gap-2 w-full p-4 rounded-lg text-lg text-white font-medium cursor-pointer hover:bg-green-800 transition-colors duration-200"
             href={`https://api.whatsapp.com/send?phone=${car.whatsapp}&text=Olá, vi seu anúncio sobre esse carro ${car.name} e entrei em contato.`}
+            target="_blank"
           >
             Falar com o anunciante
             <FaWhatsapp size={26} color="#FFF" />
