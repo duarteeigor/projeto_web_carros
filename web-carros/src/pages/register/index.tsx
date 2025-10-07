@@ -10,11 +10,12 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { supabase } from "../../services/supabaseClient";
 import { useContext, useEffect } from "react";
 import { AuthContext } from "../../contexts/AuthContext";
+import toast from "react-hot-toast";
 
 const schema = z.object({
     name: z.string().nonempty("Campo nome obrigatório"),
     email: z.email("Digite um email válido").nonempty("Campo email obrigatório"),
-    password: z.string().min(6).nonempty("Campo senha obrigatório")
+    password: z.string().min(6, "Senha deve ter pelo menos 6 caracteres").nonempty("Campo senha obrigatório")
 })
 
 type FormData = z.infer<typeof schema>
@@ -34,7 +35,7 @@ export function Register() {
 
             if (error) {
                 console.error(error.message)
-            } 
+            }
         }
         signOut()
     }, [])
@@ -66,11 +67,18 @@ export function Register() {
                     name: sessionData.user.user_metadata.fullName
                 })
 
-                
+
             }
 
-            alert("Registrado com sucesso!")
-            // console.log(sessionData.user?.user_metadata)
+
+            toast.success("Registrado com sucesso!", {
+                position: "top-center", 
+                duration: 2000,          
+                style: {                 
+                    minWidth: '250px',
+                    textAlign: 'center',
+                }
+            });
             navigate("/dashboard", { replace: true })
 
 
@@ -116,10 +124,10 @@ export function Register() {
                         register={register}
                     />
 
-                    <button type="submit" className="w-full h-10 p-2 bg-black rounded-lg text-white font-medium">Acessar</button>
+                    <button type="submit" className="w-full h-10 p-2 bg-black rounded-lg text-white font-medium hover:scale-102 duration-200 cursor-pointer">Acessar</button>
                 </form>
 
-                <span className="my-8">Já possui uma conta?<Link to="/login"> Clique aqui!</Link></span>
+                <span className="my-8">Já possui uma conta?<Link to="/login" className="hover:opacity-75"> Clique aqui!</Link></span>
 
             </div>
         </Container>
