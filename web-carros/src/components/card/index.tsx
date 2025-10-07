@@ -1,8 +1,9 @@
-import { useState } from "react"
+import { useContext, useState } from "react"
 import type { CarProps } from "../../pages/home"
 import { capitalizeWords } from "../../pages/dashboard"
 import { Link, useLocation } from "react-router"
 import { FiTrash2 } from "react-icons/fi"
+import { AuthContext } from "../../contexts/AuthContext"
 
 interface CardProps {
     item: CarProps,
@@ -10,6 +11,7 @@ interface CardProps {
 }
 
 export function Card({ item, onDelete }: CardProps) {
+    const { user } = useContext(AuthContext)
     const [loadingImage, setLoadingImage] = useState<string[]>([])
     const location = useLocation()
 
@@ -29,7 +31,10 @@ export function Card({ item, onDelete }: CardProps) {
 
                 </div>
 
-                <Link to={`/car/${item.id}`}>
+
+
+                <Link to={user ? `/car/${item.id}` : "/login"}>
+
                     <img
                         src={item.images?.[0]?.publicUrl || "placeholder"}
                         alt={item.name}
@@ -37,6 +42,7 @@ export function Card({ item, onDelete }: CardProps) {
                         onLoad={() => handleLoading(item.id)}
                         style={{ display: loadingImage.includes(item.id) ? "block" : "none" }}
                     />
+
                 </Link>
 
 
