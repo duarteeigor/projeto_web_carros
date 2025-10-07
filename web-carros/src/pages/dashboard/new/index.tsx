@@ -314,7 +314,7 @@ export function DashboardNew() {
             />
             {errors.description && <p className="mb-2 text-red-500">{errors.description.message}</p>}
 
-            <button type="submit" className="w-full max-w-7xl p-1 bg-black text-2xl text-white font-medium rounded-lg">Cadastrar</button>
+            <button type="submit" className="w-full max-w-7xl p-1 bg-red-500 text-2xl text-white font-medium rounded-lg hover:bg-red-900 transition-colors cursor-pointer">Cadastrar</button>
           </div>
         </div>
       </form>
