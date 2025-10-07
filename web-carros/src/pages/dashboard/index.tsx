@@ -4,16 +4,23 @@ import { PainelHeader } from "../../components/painelheader/PainelHeader";
 import { AuthContext } from "../../contexts/AuthContext";
 import { type CarProps } from "../home";
 import { supabase } from "../../services/supabaseClient";
-import { Link } from "react-router";
-import { FiTrash2 } from "react-icons/fi";
 import toast from "react-hot-toast";
+import { Card } from "../../components/card";
+
+export function capitalizeWords(text: string) {
+        return text
+            .toLowerCase()
+            .split(" ")
+            .filter(word => word.trim() !== "")
+            .map(word => word[0].toUpperCase() + word.substring(1))
+            .join(" ")
+    }
 
 
 
 export function Dashboard() {
     const { user } = useContext(AuthContext)
     const [cars, setCars] = useState<CarProps[]>([])
-    const [loadingImage, setLoadingImage] = useState<string[]>([])
 
     useEffect(() => {
         async function getData() {
@@ -45,10 +52,6 @@ export function Dashboard() {
 
         getData()
     }, [user])
-
-    function handleLoading(id: string) {
-        setLoadingImage(prev => [...prev, id])
-    }
 
     async function handleDelete(car: CarProps) {
         //removendo o carro cadastrado no banco de dados
@@ -92,6 +95,7 @@ export function Dashboard() {
         setCars(cars.filter(item => item.id !== car.id))
     }
 
+
     return (
         <div>
             <Container>
@@ -101,52 +105,8 @@ export function Dashboard() {
                     {cars.map((item: CarProps) => (
 
                         <section key={item.id} className="w-full bg-white rounded-lg">
-
-                            <div className="relative w-full h-72 rounded-lg overflow-hidden group">
-                                <div
-                                    style={{ display: loadingImage.includes(item.id) ? "none" : "block" }}
-                                    className="max-w-full h-72 bg-slate-200 rounded-lg">
-
-                                </div>
-
-                                <Link to={`/car/${item.id}`}>
-                                    <img
-                                        src={item.images?.[0]?.publicUrl || "placeholder"}
-                                        alt="bmw 320i"
-                                        className="w-full h-full object-cover transition-transform duration-300 transform group-hover:scale-105"
-                                        onLoad={() => handleLoading(item.id)}
-                                        style={{ display: loadingImage.includes(item.id) ? "block" : "none" }}
-                                    />
-                                </Link>
-
-
-                                <FiTrash2
-                                    size={28}
-                                    color="#FFF"
-                                    className="absolute top-2 right-2 z-20 opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer"
-                                    onClick={(e) => { e.stopPropagation(), handleDelete(item) }}
-
-                                />
-
-                            </div>
-
-
-                            <p className="font-bold mt-1 mb-2 px-2">{item.name.toUpperCase()}</p>
-
-                            <div className="flex flex-col px-2">
-                                <span className="text-zinc-700 mb-6">Ano {item.year} | {Number(item.km).toLocaleString("pt-BR")} km</span>
-                                <strong className="font-medium">{Number(item.value).toLocaleString("pt-BR", {
-                                    style: "currency",
-                                    currency: "BRL"
-                                })}</strong>
-                            </div>
-
-
-                            <div className="w-full h-px bg-slate-200 my-2"></div>
-
-                            <div className="px-2 pb-2">
-                                <span className="text-zinc-700">{item.city}</span>
-                            </div>
+                            <Card item={item} onDelete={handleDelete} />
+                            
                         </section>
 
                     ))}
