@@ -35,4 +35,5 @@ O WebCarros foi desenvolvido com fins puramente educacionais, com foco no aprimo
 
 ---
 
-<a href="https://projeto-web-carros-one.vercel.app/" target="_blank">Link Deploy</a>
+[Link Deploy](https://projeto-web-carros-one.vercel.app/)
+
