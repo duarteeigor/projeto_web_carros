@@ -9,6 +9,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/swiper-bundle.css'
 import { Navigation, Pagination } from "swiper/modules";
 import './index.css'
+import { capitalizeWords } from "../dashboard";
 
 export function CarDetails() {
   const { id } = useParams();
@@ -102,7 +103,7 @@ export function CarDetails() {
         <div className="flex gap-6">
           <div className="flex flex-col">
             <p>Cidade</p>
-            <strong>{car.city}</strong>
+            <strong>{capitalizeWords(car.city)}</strong>
           </div>
           <div>
             <p>Ano</p>
@@ -132,7 +133,7 @@ export function CarDetails() {
 
         <div className="md:static md:px-0 fixed bottom-3 left-0 w-full px-4">
           <a
-            className="bg-green-700 flex items-center justify-center gap-2 w-full p-4 rounded-lg text-lg text-white font-medium cursor-pointer"
+            className="bg-green-700 flex items-center justify-center gap-2 w-full p-4 rounded-lg text-lg text-white font-medium cursor-pointer hover:bg-green-800 transition-colors duration-200"
             href={`https://api.whatsapp.com/send?phone=${car.whatsapp}&text=Olá, vi seu anúncio sobre esse carro ${car.name} e entrei em contato.`}
           >
             Falar com o anunciante
