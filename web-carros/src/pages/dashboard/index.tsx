@@ -102,7 +102,7 @@ export function Dashboard() {
                 <PainelHeader />
 
                 <main className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 my-14">
-                    {cars.map((item: CarProps) => (
+                    {user && cars.map((item: CarProps) => (
 
                         <section key={item.id} className="w-full bg-white rounded-lg">
                             <Card item={item} onDelete={handleDelete} />
