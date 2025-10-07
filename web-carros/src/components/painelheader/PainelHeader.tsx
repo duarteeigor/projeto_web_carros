@@ -15,7 +15,7 @@ export function PainelHeader() {
 
             <Link className="hover:opacity-90" to="/dashboard/new">Cadastrar Carro</Link>
 
-            <button className="ml-auto hover:opacity-90" onClick={handleLogout}>Sair da conta</button>
+            <button className="ml-auto hover:opacity-90 cursor-pointer" onClick={handleLogout}>Sair da conta</button>
         </div>
 
 
