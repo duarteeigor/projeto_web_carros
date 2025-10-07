@@ -39,7 +39,7 @@ O principal objetivo do WebCarros foi o aprendizado e a prática de novas ferram
 🚀 Como Executar o Projeto
 
 # Clone o repositório
-git clone https://github.com/seuusuario/webcarros.git
+git clone https://github.com/duarteeigor/projeto_web_carros.git
 
 
 # Acesse a pasta do projeto
