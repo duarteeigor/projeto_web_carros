@@ -81,10 +81,10 @@ export function Login() {
 
                     {error && (<span className="text-red-500">{error}</span>)}
 
-                    <button type="submit" className="w-full h-10 p-2 bg-black rounded-lg text-white font-medium">Acessar</button>
+                    <button type="submit" className="w-full h-10 p-2 bg-black rounded-lg text-white font-medium hover:scale-102 transition-all duration-200 cursor-pointer">Acessar</button>
                 </form>
 
-                <span className="my-8">Ainda não possui uma conta?<a href="/register"> Cadastre-se</a></span>
+                <span className="my-8">Ainda não possui uma conta?<a href="/register" className="hover:opacity-75"> Cadastre-se</a></span>
 
             </div>
         </Container>
